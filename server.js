@@ -1,0 +1,6 @@
+const http = require("http")
+const { Server } = require("socket.io")
+const server = http.createServer((req, res) => { res.writeHead(200, {"Content-Type":"text/plain"}); res.end("ChatRealTime Server") })
+const io = new Server(server, { cors: { origin: "*" } })
+io.on("connection", (s) => { console.log("Conectado:", s.id); s.on("message", (d) => io.emit("message", d)); s.on("disconnect", () => console.log("Saiu:", s.id)) })
+server.listen(3001, () => console.log("ChatRealTime :3001"))
